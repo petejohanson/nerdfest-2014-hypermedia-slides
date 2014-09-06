@@ -1,0 +1,9 @@
+
+.two-column {
+  float: left;
+  width: 50%;
+}
+
+code {
+  tab-size: 2;
+}

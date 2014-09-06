@@ -32,7 +32,7 @@ module.exports = function(grunt) {
 		cssmin: {
 			compress: {
 				files: {
-					'css/reveal.min.css': [ 'css/reveal.css' ]
+					'css/reveal.min.css': [ 'css/reveal.css', 'css/hypermedia.css' ]
 				}
 			}
 		},
@@ -79,6 +79,7 @@ module.exports = function(grunt) {
 		connect: {
 			server: {
 				options: {
+                                        hostname: '*',
 					port: port,
 					base: '.'
 				}

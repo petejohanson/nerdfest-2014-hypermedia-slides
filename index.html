@@ -56,8 +56,10 @@ vim: ts=2 autoindent
 				<section>
 					<h2>Hyper...what?</h2>
 					<ul>
+						<li>Traditional Web Apps - State entirely server side</li>
+						<li>Web 2.0 - Spread state between server and client</li>
+						<li>Alternative: HATEOAS</li>
 						<li>Links Are Everything</li>
-						<li>HATEOAS</li>
 					</ul>
 
 					<aside class="notes">
@@ -92,37 +94,42 @@ vim: ts=2 autoindent
 						<pre><code data-trim data-lang="http">GET /orders/123 HTTP/1.1</code></pre>
 						<pre class="fragment"><code data-trim data-lang="json">
 {
-	"id": "123",
-	"dosage": "500MG",
-	"route": "oral",
-	"schedule": "BID",
-	"prn": true
-	...
+  "id": "123",
+  "dosage": "500MG",
+  "route": "oral",
+  "schedule": "BID",
+  "prn": true
+  ...
 }
 						</code></pre>
 					</div>
-					<aside class="notes">What actions can be performed on this RX order?</aside>
+					<aside class="notes">
+						<ul>
+							<li>What actions can be performed on this RX order?</li>
+							<li>HAL used in examples</li>
+						</ul>
+					</aside>
 					<div class="two-column fragment">
 						<h4>Hypermedia Enabled</h4>
 						<pre><code data-trim data-lang="http">GET /orders/123 HTTP/1.1</code></pre>
 						<pre><code data-trim data-lang="json">
 {
-	"_links": {
-		"self": { "href": "/orders/123" },
-		"rx:verify": {
-			"href": "/orders/123/verify",
-			"title": "Verify"
-		},
-		"rx:flag": {
-			"href": "/orders/123/flag",
-			"title": "Flag"
-		}
-	},
-	"dosage": "500MG",
-	"route": "oral",
-	"schedule": "BID",
-	"prn": true
-	...
+  "_links": {
+    "self": { "href": "/orders/123" },
+    "rx:verify": {
+      href": "/orders/123/verify",
+      title": "Verify"
+    },
+    "rx:flag": {
+      "href": "/orders/123/flag",
+      "title": "Flag"
+    }
+  },
+  "dosage": "500MG",
+  "route": "oral",
+  "schedule": "BID",
+  "prn": true
+  ...
 }
 						</code></pre>
 					</div>
@@ -142,43 +149,120 @@ vim: ts=2 autoindent
 						<pre><code data-trim data-lang="http">GET /posts?page=2&amp;size=5 HTTP/1.1</code></pre>
 						<pre><code data-trim data-lang="json">
 {
-	"posts": [
-	  { "title": "Hypermedia!", "tags": ["rest", "hypermedia" ] },
-	  { "title": "REST and the client", "tags": ["rest", "javascript" ] },
-	  { "title": "HAL with Java: HALBuilder", "tags": ["hal", "java" ] },
-	  { "title": "Hypermedia Media Types", "tags": ["hypermedia" ] },
-	  { "title": "Custom Link Relations", "tags": ["hypermedia", "link-relations" ] }
-	]
+  "posts": [
+    { "title": "Hypermedia!", "tags": ["rest", "hypermedia" ] },
+    { "title": "REST and the client", "tags": ["rest", "javascript" ] },
+    { "title": "HAL with Java: HALBuilder", "tags": ["hal", "java" ] },
+    { "title": "Hypermedia Media Types", "tags": ["hypermedia" ] },
+    { "title": "Custom Link Relations", "tags": ["hypermedia", "link-relations" ] }
+  ]
 }
 						</code></pre>
-						<aside class="notes">How do we link to previous and next page? Direct page link?</aside>
+						<aside class="notes">How do we get previous and next page? Direct page link?</aside>
 					</section>
 
+					<section>
 					<section>
 						<h4>Hypermedia Enabled</h4>
 						<pre><code data-trim data-lang="http">GET /posts?page=2&amp;size=5 HTTP/1.1</code></pre>
 						<pre><code data-trim data-lang="json">
 {
-	"_links": {
-		"self": { "href": "/posts?page=2&amp;size=5" },
-		"next": { "href": "/posts?page=3&amp;size=5" },
-		"prev": { "href": "/posts?page=1&amp;size=5" },
-		"section": [
-		  { "title": "1", "href": "/posts?page=1&amp;size=5" },
-		  { "title": "2", "href": "/posts?page=2&amp;size=5" },
-		  { "title": "3", "href": "/posts?page=3&amp;size=5" },
-		  { "title": "4", "href": "/posts?page=4&amp;size=5" },
-		]
-	},
-	"posts": [
-	  { "title": "Hypermedia!", "tags": ["rest", "hypermedia" ] },
-	  { "title": "REST and the client", "tags": ["rest", "javascript" ] },
-	  { "title": "HAL with Java: HALBuilder", "tags": ["hal", "java" ] },
-	  { "title": "Hypermedia Media Types", "tags": ["hypermedia" ] },
-	  { "title": "Custom Link Relations", "tags": ["hypermedia", "link-relations" ] }
-	]
+  "_links": {
+    "self": { "href": "/bob/is/your/uncle" },
+    "next": { "href": "/oh/captain/my/captain" },
+    "prev": { "href": "/foo/bar" },
+  },
+  "posts": [
+    { "title": "Hypermedia!", "tags": ["rest", "hypermedia" ] },
+    { "title": "REST and the client", "tags": ["rest", "javascript" ] },
+    { "title": "HAL with Java: HALBuilder", "tags": ["hal", "java" ] },
+    { "title": "Hypermedia Media Types", "tags": ["hypermedia" ] },
+    { "title": "Custom Link Relations", "tags": ["hypermedia", "link-relations" ] }
+  ]
 }
 						</code></pre>
+						<aside class="notes">
+							<ul>
+								<li>URLs are <strong>opaque</strong>, randomized to emphasize point</li>
+								<li>State, nor URLs!</li>
+							</ul>
+						</aside>
+					</section>
+
+					<section>
+						<h4>View</h4>
+						<pre><code data-trim data-lang="html">
+<ul class="pagination">
+  <li>
+    &lt;a ng-click="{{follow('prev')}}" ng-class="{disabled: !page.$link('prev')}"&gt;&laquo;&lt;/a&gt;
+  </li>
+  <li>
+    &lt;a ng-click="{{follow('next')}}" ng-class="{disabled: !page.$link('next')}"&gt;&raquo;&lt;/a&gt;
+  </li>
+</ul>
+						</code></pre>
+					</section>
+
+					<section>
+						<h4>Controller</h4>
+					  <pre><code data-trim data-lang="javascript">
+$scope.follow = function(rel) {
+  $scope.page
+    = $scope.page.$follow(rel);
+};
+						</code></pre>
+					</section>
+					</section>
+
+					<section>
+					<section>
+						<h4>Direct Page Links: API</h4>
+						<pre><code data-trim data-lang="http">GET /posts?page=2&amp;size=5 HTTP/1.1</code></pre>
+						<pre><code data-trim data-lang="json">
+{
+  "_links": {
+    "self": { "href": "/bob/is/your/uncle" },
+    "next": { "href": "/oh/captain/my/captain" },
+    "prev": { "href": "/foo/bar" },
+    "section": [
+      { "title": "1", "href": "/posts/page-one" },
+      { "title": "2", "href": "/posts/page-two" },
+      { "title": "3", "href": "/posts/page-three" },
+      { "title": "4", "href": "/posts/page-four" },
+    ]
+  },
+  "posts": [
+    { "title": "Hypermedia!", "tags": ["rest", "hypermedia" ] },
+    { "title": "REST and the client", "tags": ["rest", "javascript" ] },
+    { "title": "HAL with Java: HALBuilder", "tags": ["hal", "java" ] },
+    { "title": "Hypermedia Media Types", "tags": ["hypermedia" ] },
+    { "title": "Custom Link Relations", "tags": ["hypermedia", "link-relations" ] }
+  ]
+}
+						</code></pre>
+					<aside class="notes">
+						<ul>
+							<li>Title of link provided by server</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h4>View</h4>
+					<pre><code data-trim data-lang="html">
+<ul class="pagination">
+  <li>
+    &lt;a ng-click="{{follow('prev')}}" ng-class="{disabled: !page.$link('prev')}"&gt;&laquo;&lt;/a&gt;
+  </li>
+  <li ng-repeat="s in page.$link('sections')"
+      ng-class="{active: s.link === page.$link('self').href}">
+    &lt;a ng-click="{{section(s)}}"&gt;{{s.title}}&lt;/a&gt;
+  </li>
+  <li>
+    &lt;a ng-click="{{follow('next')}}" ng-class="{disabled: !page.$link('next')}"&gt;&raquo;&lt;/a&gt;
+  </li>
+</ul>
+					</code></pre>
 				</section>
 
 				<section>
@@ -186,30 +270,15 @@ vim: ts=2 autoindent
 				  <pre><code data-trim data-lang="javascript">
 $scope.follow = function(rel) {
   $scope.page
-		= $scope.page.$follow(rel);
+    = $scope.page.$follow(rel);
 };
 
 $scope.section(s) = function() {
   $scope.page
-		= $scope.page.$followLink(s);
+    = $scope.page.$followLink(s);
 };
-						</code></pre>
-					</section>
-					<section>
-						<h4>View</h4>
-				  		<pre><code data-trim data-lang="html">
-<ul class="pagination">
-  <li>
-		&lt;a ng-click="{{follow('prev')}}" ng-class="{disabled: !page.$link('prev')}"&gt;Prev&lt;/a&gt;
-	</li>
-	<li ng-repeat="s in page.$link('sections')">
-		&lt;a ng-click="{{section(s)}}"&gt;{{s.title}}&lt;/a&gt;
-	</li>
-  <li>
-		&lt;a ng-click="{{follow('next')}}" ng-class="{disabled: !page.$link('next')}"&gt;Next&lt;/a&gt;
-	</li>
-</ul>
-							</code></pre>
+					</code></pre>
+				</section>
 				</section>
 
 				<section>
@@ -236,6 +305,7 @@ $scope.section(s) = function() {
 				</section>
 
 				<section>
+				<section>
 				  <h2>Deep Linked Web Apps</h2>
 					<ul>
 					  <li>Mixes two URL spaces, API and client web app</li>
@@ -250,11 +320,12 @@ $scope.section(s) = function() {
 					<pre><code data-trim data-lang="http">GET /api HTTP/1.1</code></pre>
 					<pre><code data-trim data-lang="json">
 {
-	"_links": {
-		"post-template": {
-			"href": "/api/posts{/id}",
-			"templated": true
-		}
+  "_links": {
+    "post-template": {
+      "href": "/api/posts{/id}",
+      "templated": true
+    }
+  }
 }
 					</code></pre>
 				</section>
@@ -264,10 +335,15 @@ $scope.section(s) = function() {
 					<h4>Route Registration</h4>
 					<pre><code data-trim data-lang="javascript">
 $routeProvider
-	.when('/post/:postId', {
-		controller: 'PostCtrl',
-		templateUrl: 'post/view.html'
-	});
+  .when('/post/:postId', {
+    controller: 'PostCtrl',
+    templateUrl: 'post/view.html',
+    resolve: {
+      root: function() {
+        hrResource('/api').get();
+      }
+    }
+  });
 					</code></pre>
 					<h4>Controller</h4>
 					<pre><code data-trim data-lang="javascript">
@@ -285,12 +361,14 @@ angular.module('nerdSummitSampleApp')
 						<li>Every step of state change from root inspects URI Template variables and uses in web app route.</li>
 					</ul>
 				</section>
+				</section>
 
 				<section>
 					<h2>Resources</h2>
 					<ul>
-						<li><a href="https://groups.google.com/forum/#!forum/api-craft">API-Craft</a> Google Group</li>
-						<li><a href="https://github.com/petejohanson/angular-hy-res">angular-hy-res</a> AngularJS hypermedia client</li>
+						<li>API-Craft Google Group - <a href="https://groups.google.com/forum/#!forum/api-craft">https://groups.google.com/forum/#!forum/api-craft</a></li>
+						<li>HAL Browser - <a href="http://haltalk.herokuapp.com">http://haltalk.herokuapp.com</a></li>
+						<li>AngularJS hypermedia client: angular-hy-res - <a href="https://github.com/petejohanson/angular-hy-res">https://github.com/petejohanson/angular-hy-res</a></li>
 					</ul>
 				</section>
 			</div>

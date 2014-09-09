@@ -117,8 +117,8 @@ vim: ts=2 autoindent
   "_links": {
     "self": { "href": "/orders/123" },
     "rx:verify": {
-      href": "/orders/123/verify",
-      title": "Verify"
+      "href": "/orders/123/verify",
+      "title": "Verify"
     },
     "rx:flag": {
       "href": "/orders/123/flag",
@@ -255,7 +255,7 @@ $scope.follow = function(rel) {
     &lt;a ng-click="{{follow('prev')}}" ng-class="{disabled: !page.$link('prev')}"&gt;&laquo;&lt;/a&gt;
   </li>
   <li ng-repeat="s in page.$link('sections')"
-      ng-class="{active: s.link === page.$link('self').href}">
+      ng-class="{active: s.href === page.$link('self').href}">
     &lt;a ng-click="{{section(s)}}"&gt;{{s.title}}&lt;/a&gt;
   </li>
   <li>
@@ -349,7 +349,10 @@ $routeProvider
 					<pre><code data-trim data-lang="javascript">
 angular.module('nerdSummitSampleApp')
   .controller('PostCtrl', function ($scope, $routeParams, root) {
-    $scope.post = root.$follow('post-template', { data: $routeParams.postId });
+    $scope.post = root.$follow(
+		  'post-template',
+		  { data: { id: $routeParams.postId } }
+		);
   });
 					</code></pre>
 				</section>
@@ -364,13 +367,34 @@ angular.module('nerdSummitSampleApp')
 				</section>
 
 				<section>
-					<h2>Resources</h2>
-					<ul>
-						<li>API-Craft Google Group - <a href="https://groups.google.com/forum/#!forum/api-craft">https://groups.google.com/forum/#!forum/api-craft</a></li>
-						<li>HAL Browser - <a href="http://haltalk.herokuapp.com">http://haltalk.herokuapp.com</a></li>
-						<li>AngularJS hypermedia client: angular-hy-res - <a href="https://github.com/petejohanson/angular-hy-res">https://github.com/petejohanson/angular-hy-res</a></li>
-						<li>Slides - <a href="http://petejohanson.github.io/nerdfest-2014-hypermedia-slides">http://petejohanson.github.io/nerdfest-2014-hypermedia-slides</a></li>
-					</ul>
+					<section>
+						<h2>Resources</h2>
+						<ul>
+							<li>API-Craft Google Group - <a href="https://groups.google.com/forum/#!forum/api-craft">https://groups.google.com/forum/#!forum/api-craft</a></li>
+							<li>Slides - <a href="http://petejohanson.github.io/nerdfest-2014-hypermedia-slides">http://petejohanson.github.io/nerdfest-2014-hypermedia-slides</a></li>
+							<li>HAL Browser - <a href="http://haltalk.herokuapp.com">http://haltalk.herokuapp.com</a></li>
+						</ul>
+					</section>
+					<section>
+						<h2>Client Libraries</h2>
+						<ul>
+							<li>AngularJS:
+								<ul>
+									<li>angular-hyper-resource - <a href="https://github.com/johndgiese/angular-hyper-resource">https://github.com/johndgiese/angular-hyper-resource</a></li>
+									<li>angular-hy-res - <a href="https://github.com/petejohanson/angular-hy-res">https://github.com/petejohanson/angular-hy-res</a></li>
+								</ul>
+							</li>
+							<li>Ruby: hyperresource - <a href="http://hyperresource.com/doc/">http://hyperresource.com/doc/</a></li>
+							<li>Python: REST Navigator - <a href="https://github.com/deontologician/rest_navigator">https://github.com/deontologician/rest_navigator</a></li>
+						</ul>
+					</section>
+					<section>
+						<h2>Server Libraries</h2>
+						<ul>
+							<li>Java: HALBuilder - <a href="http://gotohal.net/">http://gotohal.net/</a></li>
+							<li>Ruby: ROAR - <a href="https://github.com/apotonick/roar">https://github.com/apotonick/roar</a></li>
+						</ul>
+					</section>
 				</section>
 			</div>
 

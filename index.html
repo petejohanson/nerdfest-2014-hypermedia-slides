@@ -89,6 +89,23 @@ vim: ts=2 autoindent
 				</section>
 
 				<section>
+					<h2>Links</h2>
+					<ul>
+						<li>Web Linking - RFC5988</li>
+						<li>Link relation is primary identifier</li>
+						<li>Humans - Read link text, not URL</li>
+						<li>Hypermedia Clients - Inspect link relation, not URL</li>
+						<li>e.g.<pre><code data-trim data-lang="http">Link: &lt;/api/posts?page=2&gt;; rel="next";</code></pre></li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>URL is opaque implementation detail</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
 					<div class="two-column">
 						<h4>Data-Centric API</h4>
 						<pre><code data-trim data-lang="http">GET /orders/123 HTTP/1.1</code></pre>

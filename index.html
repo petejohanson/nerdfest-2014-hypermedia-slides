@@ -89,20 +89,29 @@ vim: ts=2 autoindent
 				</section>
 
 				<section>
-					<h2>Links</h2>
-					<ul>
-						<li>Web Linking - RFC5988</li>
-						<li>Link relation is primary identifier</li>
-						<li>Humans - Read link text, not URL</li>
-						<li>Hypermedia Clients - Inspect link relation, not URL</li>
-						<li>e.g.<pre><code data-trim data-lang="http">Link: &lt;/api/posts?page=2&gt;; rel="next";</code></pre></li>
-					</ul>
-
-					<aside class="notes">
+					<section>
+						<h2>Links</h2>
 						<ul>
-							<li>URL is opaque implementation detail</li>
+							<li>Web Linking - <a href="http://tools.ietf.org/html/rfc5988">RFC5988</a></li>
+							<li>At a minimum, includes a relation &amp; URL/URI Template</li>
+							<li>Humans - Read link text, not URL</li>
+							<li>Hypermedia Clients - Inspect link relation, not URL</li>
 						</ul>
-					</aside>
+						<aside class="notes">
+							<ul>
+								<li>URL is opaque implementation detail</li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h2>Examples</h2>
+						<ul>
+							<li>HTTP Header - <pre style="width: 100%"><code data-trim data-lang="http">Link: &lt;/api/posts?page=2&gt;; rel="next";</code></pre></li>
+							<li>HTML - <pre style="width: 100%"><code data-trim data-lang="html"><link rel="stylesheet" href="css/main.css"></code></pre></li>
+							<li>Atom XML - <pre style="width: 100%"><code data-trim data-lang="xml">&lt;atom:link rel="next" href="/api/posts?page=2"&gt;</code></pre></li>
+						</ul>
+					</section>
+
 				</section>
 
 				<section>
